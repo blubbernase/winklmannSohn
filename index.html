@@ -1,0 +1,917 @@
+Hier ist eine fertige, einzelne HTML-Datei, die du einfach speichern und schicken kannst (z.B. als `winklmann-und-sohn.html`):
+
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Winklmann &amp; Sohn – Alster-Schatzrettung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #050816;
+      --primary: #00d4ff;
+      --accent: #ffd447;
+      --text: #f5f5f5;
+      --muted: #9ca3af;
+      --card: rgba(15, 23, 42, 0.9);
+      --danger: #fb7185;
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 40%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 30%, #38bdf8, #0f172a);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
+      font-weight: 800;
+    }
+
+    .logo-icon span {
+      font-size: 1.3rem;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text strong {
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+    }
+
+    .logo-text span {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .header-tagline {
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-tagline-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.4rem, 3vw, 3.2rem);
+      line-height: 1.08;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-text h1 span.highlight {
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-subtitle strong {
+      color: var(--accent);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      margin-bottom: 0.7rem;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-badge span.icon {
+      font-size: 1rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.98rem;
+      background: linear-gradient(135deg, var(--primary), #38bdf8);
+      color: #0b1120;
+      box-shadow: 0 14px 35px rgba(56, 189, 248, 0.5);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.65);
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      padding: 0.65rem 1.2rem;
+      font-size: 0.9rem;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      align-items: center;
+    }
+
+    .trust-row span.emoji {
+      font-size: 1rem;
+      margin-right: 0.4rem;
+    }
+
+    .hero-kpi-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .kpi {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .card-hero {
+      position: relative;
+      padding: 1.4rem 1.2rem;
+      border-radius: 1.2rem;
+      background: radial-gradient(circle at top, rgba(15, 118, 110, 0.5), rgba(15, 23, 42, 0.96));
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .card-hero::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: radial-gradient(circle at 20% 0, rgba(56, 189, 248, 0.15), transparent 55%),
+                        radial-gradient(circle at 90% 100%, rgba(248, 250, 252, 0.08), transparent 45%);
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    .card-hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .waterline {
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      margin-bottom: 1rem;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .underwater {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .underwater-column-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .lost-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.3rem 0.4rem;
+      border-radius: 0.55rem;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      margin-bottom: 0.3rem;
+    }
+
+    .lost-item span.label {
+      font-size: 0.8rem;
+    }
+
+    .lost-item span.meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .status-pill span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--success);
+    }
+
+    .kids-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .kids-note span.icon {
+      font-size: 0.9rem;
+    }
+
+    .magnet-card {
+      margin-top: 0.4rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(248, 250, 252, 0.18);
+      padding: 0.5rem 0.7rem;
+      background: rgba(15, 23, 42, 0.82);
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .magnet-card strong {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .magnet-card span.badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 244, 245, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.1rem;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.85);
+      font-size: 0.86rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .card p {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .price {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .price span.small {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-left: 0.2rem;
+    }
+
+    ul.checklist {
+      list-style: none;
+      margin-top: 0.6rem;
+    }
+
+    ul.checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    ul.checklist li span.icon {
+      color: var(--success);
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .quote-card {
+      position: relative;
+      padding: 1rem;
+      border-radius: 1rem;
+      background: var(--card);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.88rem;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    .quote-card::before {
+      content: "„";
+      position: absolute;
+      top: -1.2rem;
+      left: 0.3rem;
+      font-size: 3rem;
+      color: rgba(148, 163, 184, 0.3);
+    }
+
+    .quote-author {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .quote-author strong {
+      color: var(--accent);
+    }
+
+    .fun-facts {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .fun-facts ul {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .fun-facts li {
+      margin-bottom: 0.25rem;
+    }
+
+    .fun-facts span.bullet {
+      margin-right: 0.3rem;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .faq-item h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .faq-item p {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      padding-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      justify-content: space-between;
+    }
+
+    .contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .contact span.label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    .wink {
+      display: inline-block;
+      animation: wobble 1.6s ease-in-out infinite;
+      transform-origin: 70% 40%;
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0deg); }
+      15% { transform: rotate(-10deg); }
+      30% { transform: rotate(7deg); }
+      45% { transform: rotate(-4deg); }
+      60% { transform: rotate(2deg); }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .testimonials {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">
+          <span>W</span>
+        </div>
+        <div class="logo-text">
+          <strong>Winklmann &amp; Sohn</strong>
+          <span>Alster-Schatzrettung seit &plusmn; 2025</span>
+        </div>
+      </div>
+      <div class="header-tagline">
+        <span class="header-tagline-dot"></span>
+        <span>Heute verloren – morgen wieder an deinem Schlüsselbund</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="icon">🧲</span>
+            <span>Magnetfischen mit familiärer Übertreibung</span>
+          </div>
+          <h1>
+            Dein Schlüssel liegt <span class="highlight">nicht</span> auf dem Grund.
+            <br />Er wartet nur auf <span class="highlight">Winklmann &amp; Sohn</span>.
+          </h1>
+          <p class="hero-subtitle">
+            Du hast deinen Schlüssel, dein Handy oder die Sonnenbrille in die Alster
+            befördert, während du dein Kind angespielt hast?
+            <strong>Beruhig dich.</strong> Wir haben stärkere Magnete als du Nerven.
+          </p>
+
+          <div class="hero-cta">
+            <button class="btn-primary">
+              Jetzt (theoretisch) Termin sichern
+            </button>
+            <button class="btn-secondary">
+              Ich will nur lachen &ndash; wie funktioniert das?
+            </button>
+          </div>
+
+          <div class="trust-row">
+            <div>
+              <span class="emoji">⭐</span>
+              <strong>5,0</strong> imaginäre Sterne auf &bdquo;AlsterFischer24&ldquo;
+            </div>
+            <div>
+              <span class="emoji">🧒</span>
+              2 Söhne – doppelte Motivation, alles wieder hochzuholen
+            </div>
+          </div>
+
+          <div class="hero-kpi-row">
+            <div class="kpi">
+              <strong>3 von 3</strong>
+              gerettete Schlüsselbunde im erweiterten Familienkreis
+            </div>
+            <div class="kpi">
+              <strong>&lt; 60 Minuten</strong>
+              durchschnittliche Schockstarre nach Verlust &ndash; wir kennen das.
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="card-hero">
+            <div class="card-hero-inner">
+              <div class="waterline"></div>
+              <div class="underwater">
+                <div>
+                  <div class="underwater-column-title">Zuletzt gesichtet in der Alster</div>
+
+                  <div class="lost-item">
+                    <span class="label">🔑 Hausschlüssel</span>
+                    <span class="meta">Brücke &bdquo;Papa passt auf&ldquo;</span>
+                  </div>
+                  <div class="lost-item">
+                    <span class="label">📱 Smartphone</span>
+                    <span class="meta">Selfie mit Möwe</span>
+                  </div>
+                  <div class="lost-item">
+                    <span class="label">🕶️ Sonnenbrille</span>
+                    <span class="meta">Coolnesslevel +10, Auftrieb 0</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="underwater-column-title">Status</div>
+
+                  <div class="status-pill">
+                    <span class="dot"></span>
+                    <span>Magnet bereit &ndash; Papa auch</span>
+                  </div>
+
+                  <p class="kids-note">
+                    <span class="icon">👨‍👦‍👦</span>
+                    <span>
+                      Pro Auftrag gibt es mindestens einen hochprofessionellen
+                      Kommentar von einem der Söhne („Papa, nicht schon wieder!“).
+                    </span>
+                  </p>
+
+                  <div class="magnet-card">
+                    <div>
+                      <strong>Industrie-Magnet 3000</strong>
+                      <span>Offiziell: bis 300 kg Zugkraft. Inoffiziell: &bdquo;Der Bück-dich-nicht-Magnet&ldquo;.</span>
+                    </div>
+                    <span class="badge">🧲 TÜV: &bdquo;Bitte nicht übertreiben.&ldquo;</span>
+                  </div>
+                </div>
+              </div>
+
+              <p style="font-size:0.78rem;color:var(--muted);">
+                Hinweis: Diese Landingpage ist halb Spaß, halb Ernst.
+                Die Alster ist echt. Die Magnete auch. Der Rest – Verhandlungssache.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div class="section-kicker">Warum Winklmann &amp; Sohn?</div>
+          <h2 class="section-title">Weil wir wissen, wie sich dieses &bdquo;Oh. Nein.&ldquo;-Gefühl anfühlt.</h2>
+          <p class="section-text">
+            Es fängt immer harmlos an: ein schönes Wochenende an der Alster, ein bisschen
+            Ballspielen auf der Brücke, alles läuft super &ndash; bis es *plopp* macht.<br />
+            Plötzlich gehört dein Schlüssel mehr zu Hamburgs Unterwasserwelt als zu deinem Alltag.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="card-icon">🧲</div>
+            <h3>Brücken-Spezialkommando</h3>
+            <p>
+              Wir sind auf genau diese Situation spezialisiert:
+              Dinge fallen runter, du frierst ein, wir kommen vorbei.
+              Keine Vorwürfe, nur Magnetkraft.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">🌊</div>
+            <h3>Alster-optimierte Taktik</h3>
+            <p>
+              Strömung, Tiefe, Brückenwinkel: Wir tun so, als hätten wir
+              das alles studiert. Hauptsache, dein Kram kommt wieder hoch.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">👨‍👦‍👦</div>
+            <h3>Familiär &amp; leicht drüber</h3>
+            <p>
+              Papa am Magnet, zwei Söhne als Qualitätskontrolle.
+              Wenn die zufrieden sind, bist du es in der Regel auch.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div class="section-kicker">Pakete</div>
+          <h2 class="section-title">Ein Preis. Keine Fragen. Nur leichtes Zittern am Ufer.</h2>
+          <p class="section-text">
+            Wir wissen, dass du in dem Moment andere Sorgen hast als durch komplizierte
+            Preislisten zu scrollen. Darum machen wir es einfach &ndash; und ein bisschen übertrieben.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <span class="price-badge">🧷 Für kleine Dramen</span>
+            <h3>Basic &bdquo;Ups&ldquo;</h3>
+            <div class="price">49<span class="small">&nbsp;€ / Einsatz*</span></div>
+            <p>*im Radius &bdquo;halbwegs in Alsternähe&ldquo;</p>
+            <ul class="checklist">
+              <li><span class="icon">✔</span><span>1x Magnet-Einsatz von der Brücke oder vom Ufer aus</span></li>
+              <li><span class="icon">✔</span><span>Ideal für Schlüssel, Schmuck &amp; Kleinkram</span></li>
+              <li><span class="icon">✔</span><span>Tröstender Spruch inklusive</span></li>
+            </ul>
+          </article>
+
+          <article class="card" style="border-color:var(--accent);box-shadow:0 20px 45px rgba(202, 138, 4, 0.4);">
+            <span class="price-badge">💎 Bestseller</span>
+            <h3>Premium &bdquo;Ich hab ALLES fallen lassen&ldquo;</h3>
+            <div class="price">89<span class="small">&nbsp;€ / Einsatz*</span></div>
+            <p>*inkl. &bdquo;ruhig bleiben, wir kriegen das hin&ldquo;-Coaching</p>
+            <ul class="checklist">
+              <li><span class="icon">✔</span><span>Mehrere Magnet-Würfe mit systematischer Suche</span></li>
+              <li><span class="icon">✔</span><span>Ideal bei Handy, Schlüsselbund &amp; &bdquo;irgendwas Metallisches&ldquo;</span></li>
+              <li><span class="icon">✔</span><span>Auf Wunsch mit Foto des Moments der Rettung</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="price-badge">🏆 Für Legenden</span>
+            <h3>Legendary &bdquo;Lange Geschichte…&ldquo;</h3>
+            <div class="price">auf Anfrage<span class="small">&nbsp;(+ Snacks erwünscht)</span></div>
+            <p>Für alles, was in keine Schublade passt, aber sicher eine gute Story ist.</p>
+            <ul class="checklist">
+              <li><span class="icon">✔</span><span>Komplizierte Szenarien (mehrere Brücken, mehrere Würfe, mehrere Tränen)</span></li>
+              <li><span class="icon">✔</span><span>Perfekt für Junggesellenabschiede &amp; Mutproben, die ausarten</span></li>
+              <li><span class="icon">✔</span><span>Optional: Diskrete Abwicklung. Niemand muss davon erfahren.&nbsp;😉</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div class="section-kicker">Stimmen von der Uferkante</div>
+          <h2 class="section-title">Menschen, die *wirklich* dachten: Das war's jetzt.</h2>
+        </div>
+
+        <div class="testimonials">
+          <article class="quote-card">
+            <p>
+              „Ich hab den Ball meinem Kind zugespielt, und im selben Moment
+              flogen Schlüssel und Handy mit. Ich hab nur noch auf die Alster
+              gestarrt. 30 Minuten später stand Winklmann an der Brücke,
+              grinste und meinte: ‚Klassiker.‘ 20 Minuten danach hatte ich
+              meinen Schlüssel wieder. Das Handy… reden wir nicht drüber.“
+            </p>
+            <p class="quote-author">
+              <strong>Nervlich angeschlagener Alster-Papa</strong><br />
+              irgendwann zwischen Samstagmittag und Nervenzusammenbruch
+            </p>
+          </article>
+
+          <aside class="fun-facts">
+            <p><strong>Fun Facts aus der (imaginären) Einsatzstatistik:</strong></p>
+            <ul>
+              <li><span class="bullet">•</span> 73&nbsp;% aller Verluste passieren beim „Nur kurz ein Selfie machen“.</li>
+              <li><span class="bullet">•</span> 92&nbsp;% aller Betroffenen sagen: „Das ist mir sonst NIE passiert.“</li>
+              <li><span class="bullet">•</span> 100&nbsp;% wünschen sich, sie hätten früher an Magnete gedacht.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div class="section-kicker">FAQ</div>
+          <h2 class="section-title">Fragen, die du dir gerade stellst (oder gleich stellen wirst).</h2>
+        </div>
+
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h3>Ist das hier wirklich ein echter Service?</h3>
+            <p>
+              Sagen wir so: Die Magnete sind echt, die Alster ist echt und der
+              Verlustschmerz ist leider auch echt. Der Rest ist eine Mischung
+              aus Humor und unternehmerischem Optimismus.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Holt ihr auch Nicht-Metallisches hoch?</h3>
+            <p>
+              Wenn es nicht magnetisch ist, eher schwierig. Wir können aber
+              fachmännisch mit dir zusammen auf den Fleck im Wasser zeigen und
+              traurig gucken. Das hilft emotional erstaunlich viel.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Dürft ihr das überhaupt?</h3>
+            <p>
+              Juristischer Standardtext: Bitte halte dich an geltende Gesetze,
+              Naturschutz &amp; gesunden Menschenverstand. Diese Seite ist
+              in erster Linie eine spaßige Idee, kein offizielles
+              Bergungsunternehmen.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Was, wenn ihr meinen Schlüssel nicht findet?</h3>
+            <p>
+              Dann bekommst du immerhin eine gute Geschichte und einen
+              Handschlag. Und wir geben unser Bestes, damit es gar nicht erst
+              so weit kommt.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="contact">
+        <span class="label">Kontakt (hypothetisch)</span>
+        <span>📞 &nbsp; 0170 / 123 45 67</span>
+        <span>✉️ &nbsp; anfrage@winklmann-und-sohn.de</span>
+      </div>
+      <div>
+        <span class="wink">😉</span>
+        &nbsp;Disclaimer: Diese Seite wurde mit einem Augenzwinkern erstellt.
+        Bitte nimm sie mindestens zu 51&nbsp;% mit Humor.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
+```
